@@ -1,41 +1,46 @@
-// Simulerad blockering av tråden
-setInterval(() => {
-  let start = Date.now()
-  while (Date.now() - start < 1000) {}
-}, 3000)
+// script.js — a11y + performance baseline
 
-// Skriver ut HTML direkt i dokumentet
-document.write("<h1 style='color:black;'>HELLO FROM DOCUMENT.WRITE()</h1>")
-document.write("<p>Another document.write() call</p>")
+const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false
 
-// Förhindrar användaren att navigera bakåt
-history.pushState(null, "", location.href)
-window.onpopstate = () => history.go(1)
+document.addEventListener("DOMContentLoaded", () => {
+  // 1) Stängbar annons (om den finns)
+  const ad = document.querySelector("#fake-ad")
+  if (ad) {
+    // Skapa en riktig stängknapp om den saknas
+    let closeBtn = ad.querySelector(".ad-close")
+    if (!closeBtn) {
+      closeBtn = document.createElement("button")
+      closeBtn.type = "button"
+      closeBtn.className = "ad-close"
+      closeBtn.textContent = "Stäng"
+      closeBtn.setAttribute("aria-label", "Stäng annons")
+      ad.prepend(closeBtn)
+    }
 
-// Ändrar bakgrundsfärgen slumpmässigt var 500ms
-setInterval(() => {
-  document.body.style.backgroundColor =
-    "#" + Math.floor(Math.random() * 16777215).toString(16)
-}, 500)
-
-// Visar innehållet på sidan efter 5 sekunder
-setTimeout(() => {
-  document.body.style.display = "block"
-}, 5000)
-
-// Loggar 10000 tal till konsolen efter 1 sekund
-setTimeout(() => {
-  for (let i = 0; i < 10000; i++) {
-    console.log(i)
+    closeBtn.addEventListener("click", () => {
+      ad.remove()
+      // Flytta fokus till något rimligt efter borttagning
+      const main = document.querySelector("#main")
+      main?.focus?.()
+    })
   }
-}, 1000)
 
-// // Visar en alert när sidan har laddats
-// document.addEventListener("DOMContentLoaded", function () {
-//   alert("Page loaded!")
-// })
+  // 2) Exempel: statusmeddelande utan alert (om du har en #status)
+  const status = document.querySelector("#status")
+  if (status) {
+    status.textContent = "Sidan är laddad."
+  }
 
-// Loggar 100 000 siffror direkt när sidan laddas
-for (let i = 0; i < 100000; i++) {
-  console.log(i)
-}
+  // 3) Exempel: om du vill ha en “byt tema”-knapp (endast vid user action)
+  const themeToggle = document.querySelector("#theme-toggle")
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      document.documentElement.classList.toggle("theme-alt")
+    })
+  }
+
+  // 4) Stäng av tunga animationer via klass om reduced motion
+  if (prefersReducedMotion) {
+    document.documentElement.classList.add("reduced-motion")
+  }
+})

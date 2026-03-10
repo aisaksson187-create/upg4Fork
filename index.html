@@ -1,121 +1,83 @@
-<!-- 
-The A11Y Project är ett community-drivet initiativ som strävar efter att göra digital tillgänglighet enklare, 
-mer begriplig och lättare att implementera för alla.
-
-Läs lite om projektet:
-https://www.a11yproject.com/about/
-
-
-Tillgänglighet är en viktig del av webbutveckling. Det handlar om att göra webbplatser och appar tillgängliga för alla, inklusive personer med funktionsnedsättningar. 
-Det finns många sätt att göra en webbplats mer tillgänglig, till exempel att använda semantisk HTML, skapa enkel navigering och använda alternativa texter för bilder.
- ____________________________________________________________________________________________________
- 1. Läs noga genom koden och identifiera alla tillgänglighetsproblem.
- 
- 2. Testa kör lighthouse i devtools(Google chrome) och se vilka problem som finns.
-
- 3. Skriv en kort sammanfattning av vad som är fel och hur det kan åtgärdas.
-
- 4. Skriv om koden så att den följer tillgänglighetsstandarder.
-
- 5. Skriv en kort sammanfattning av vad du har ändrat och varför.
-
- 6. Testa din nya kod med andra verktyg för tillgänglighet.
-
- 7. Skriv en kort reflektion över hur det var att göra uppgiften. Vad var svårt? Vad lärde du dig?
- ____________________________________________________________________________________________________
-
--->
-
 <!DOCTYPE html>
-<!-- Vad händer när man kommenterar bort språket? -->
-<!-- <html lang="en"> -->
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <!-- Endast en `<title>` används; flera kan orsaka oväntat beteende och påverka SEO samt tillgänglighet negativt. -->
-    <title>A11y News</title>
-    <title>A11y News dupe</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>A11y News</title>
 </head>
 
 <body>
-    <!-- Navigeringsmeny med dubblett-ID:n, inkonsekvent tabindex, och brutna länkar till en 404-sida. -->
-    <nav class="navigation">
-        <span class="nav-item" id="1" tabindex="-1"><a href="404.html" target="_blank">Home</a></span>
-        <span class="nav-item" id="1" tabindex="-1"><a href="404.html">World</a></span>
-        <span class="nav-item" id="1"><a href="404.html">Sports</a></span>
-        <span class="nav-item" id="1"><a href="404.html" target="_blank">Entertainment</a></span>
+  <a class="skip-link" href="#main">Hoppa till innehåll</a>
+
+<header>
+  <div class="header-top">
+    <h1 class="site-title">
+      <a href="index.html">A11y News</a>
+    </h1>
+  </div>
+
+  <div class="container header-bar">
+    <nav aria-label="Huvudmeny">
+      <ul class="navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="world.html">World</a></li>
+        <li><a href="sports.html">Sports</a></li>
+        <li><a href="entertainment.html">Entertainment</a></li>
+      </ul>
     </nav>
 
-    <!-- Svåråtkomligt inputfällt -->
-    <div class="input-container">
-        <input type="text" placeholder="Enter text">
-        <button><a href="#">Search</a></button>
-    </div>
+    <form class="input-container" role="search">
+      <label for="search" class="visually-hidden">Search</label>
+      <input id="search" name="q" type="search" />
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</header>
 
-    <!-- Dold text och klickbar div. 
-     .hidden-text är nästan osynlig p.g.a. låg opacity och roterad tex -->
-    <p class="hidden-text">This text is invisible.</p>
-    <div class="button">Click here!</div>
-    <div class="container">
+  <main id="main" class="container">
+    <section aria-labelledby="breaking">
+      <article class="article">
+        <h2>Breaking News</h2>
+        <p>
+          Scientists have discovered a new deep-sea fish with bioluminescent fins off the coast of Australia...
+        </p>
+        <a href="https://www.csiro.au/en/news/All/Articles/2025/October/New-species-of-shark-and-crab">Read more</a>
+      </article>
 
-        <!-- Två <h1>-taggar i .container kan påverka tillgänglighet och SEO. -->
-        <h1>A11y News</h1>
-        <h1></h1>
+      <article class="article">
+        <h3>Lunar New Year</h3>
 
-        <div class="article">
-            <!-- <marquee>(rullande text) kan vara en intressant effekt på en hemsida, men det kan också vara distraherande för besökarna. -->
-            <marquee class="headline">Breaking News: ...!</marquee>
-            <p>Scientists have discovered a new deep-sea fish with bioluminescent fins off the coast of Australia. The
-                unnamed species is believed to have unique traits that could contribute to future medical research and
-                biotechnology.</p>
-            <a href="404.html">Click here!</a>
+        <div class="image-container">
+          <a href="lunar-ocean.html">
+            <img src="/images/ocean.png" alt="Read: Ocean-berättelsen för Lunar New Year" />
+          </a>
+          <a href="lunar-city.html">
+            <img src="/images/city.png" alt="Read: City-berättelsen för Lunar New Year" />
+          </a>
+          <a href="lunar-family.html">
+            <img src="/images/family.png" alt="Read: Family-berättelsen för Lunar New Year" />
+          </a>
         </div>
 
-        <!-- Klicka på artikeln för att visa ett meddelande, men den utför egentligen inget. -->
-        <div class="article" onclick="alert('This does nothing!')">
-            <div>Lunar New Year: Celebrate with us!</div>
+        <p>Chose a picture to see related the article.</p>
+      </article>
 
-            <!-- Bilder visas inte, varför? -->
-            <div class="image-container">
-                <img src="/images/ocean.jpg">
-                <img src="/images/city.jpg">
-                <img src="/images/family.jpg">
-            </div>
+      <article class="article">
+        <h3>Video</h3>
+        <video controls preload="metadata" poster="images/video-poster.jpg">
+          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+          Your browser does not support this video.
+        </video>
+      </article>
+    </section>
 
-            <p>Access the news by pressing the images</p>
-        </div>
+    <aside class="ad" aria-label="Annons">
+      <p>Add</p>
+      <button type="button">Close</button>
+    </aside>
+  </main>
 
-        <!-- Allt för stor bild. För att motverka prestanda problem, ha koll på storleken på bilden -->
-        <div class="article" style="display: none;">
-            <p class="headline">Se en 50MB bild ladda långsamt!</p>
-            <img src="http://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg" width="50000">
-        </div>
-
-        <!-- Videor kräver mycket prestanda, kan vi ändra eller ta bort för att åstakomma bättre resultat -->
-        <div class="article">
-            <video autoplay muted loop src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <img src="http://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif">
-        </div>
-    </div>
-
-    <!-- En irriterande annons som alltid syns och innehåller en snurrande bild samt en vilseledande text -->
-    <div id="fake-ad">
-        <div class="top-section">
-            <div class="image-container">
-                <img class="rotating-image" src="images/chest.png">
-            </div>
-            <p>🎉 You have won $10,000! 🎉</p>
-            <div class="image-container">
-                <img class="rotating-image" src="images/chest.png">
-            </div>
-        </div>
-        <p class="btext">Click here to collect your money!</p>
-    </div>
-
-
-    <script src="script.js" defer></script>
+  <script src="script.js" defer></script>
 </body>
-
 </html>
